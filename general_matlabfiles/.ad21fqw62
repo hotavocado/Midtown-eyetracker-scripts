@@ -1,0 +1,32 @@
+IOPort-Info: Configuration for device COM1:
+IOPort-Info: Current baud rate is 115200
+IOPort-Info: Baud rate changed to 115200
+ans =  8
+PTB-WARNING: Startup test of beamposition queries for high precision timestamping detected problems on your graphics card + driver combo.
+PTB-INFO: Seems beamposition queries are unsupported whenever the display is in a vertical retrace state.
+PTB-INFO: I will enable a work-around which should satisfy the timing needs of most applications, ie.
+PTB-INFO: robust and jitter-free deterministic timestamps. However, all reported timestamps may have a
+PTB-INFO: constant offset of up to the duration of the vertical blanking interval (max 1 msec worst case)
+PTB-INFO: of your display. Read 'help BeampositionQueries' on how you can remove that bias by some manual
+PTB-INFO: intervention, should you need that last bit of accuracy. A second drawback is increased cpu load,
+PTB-INFO: which may cause louder air-fan noise due to heat production and lower battery runtime of laptops.
+
+
+PTB-INFO: This is Psychtoolbox-3 for Microsoft Windows, under GNU/Octave-3 (Version 3.0.9 - Build date: May 21 2012).
+PTB-INFO: Type 'PsychtoolboxVersion' for more detailed version information.
+PTB-INFO: Most parts of the Psychtoolbox distribution are licensed to you under terms of the MIT License, with
+PTB-INFO: some restrictions. See file 'License.txt' in the Psychtoolbox root folder for the exact licensing conditions.
+
+PTB-INFO: The detected endline of the vertical blank interval is equal or lower than the startline. This indicates
+PTB-INFO: that i couldn't detect the duration of the vertical blank interval and won't be able to correct timestamps
+PTB-INFO: for it. This will introduce a very small and constant offset (typically << 1 msec). Read 'help BeampositionQueries'
+PTB-INFO: for how to correct this, should you really require that last few microseconds of precision.
+PTB-INFO: Btw. this can also mean that your systems beamposition queries are slightly broken. It may help timing precision to
+PTB-INFO: enable the beamposition workaround, as explained in 'help ConserveVRAM', section 'kPsychUseBeampositionQueryWorkaround'.
+
+
+PTB-INFO: OpenGL-Renderer is ATI Technologies Inc. :: ATI Radeon HD 5450 :: 4.2.11554 Compatibility Profile Context
+PTB-INFO: VBL startline = 1024 , VBL Endline = 1024
+PTB-INFO: Measured monitor refresh interval from beamposition = 16.660628 ms [60.021745 Hz].
+PTB-INFO: Will use beamposition query for accurate Flip time stamping.
+PTB-INFO: Measured monitor refresh interval from VBLsync = 16.660453 

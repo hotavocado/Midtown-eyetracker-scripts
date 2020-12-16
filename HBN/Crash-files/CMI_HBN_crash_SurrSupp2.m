@@ -1,0 +1,215 @@
+clear all
+
+addpath('/home/cmi_linux/PsychToolbox_Experiments/Simon/general_matlabfiles')
+addpath(genpath('/home/cmi_linux/PsychToolbox_Experiments/Simon/WISC_PS'))
+addpath(genpath('/home/cmi_linux/PsychToolbox_Experiments/Simon/psychoacoustics'))
+addpath('/home/cmi_linux/PsychToolbox_Experiments/Simon/HBN/Crash-files')
+addpath('/home/cmi_linux/PsychToolbox_Experiments/Simon/HBN/Clips')
+%loadlibrary('iViewXAPI.dll', 'iViewXAPI.h');
+% tasklist = {'Resting-EEG','Video','Change Detection', 'Surround Suppression','Learning Paradigm','Auditory Psychophysics', 'Processing Speed'};
+%   
+% [select] = listdlg('PromptString','Select Task', 'SelectionMode','single', 'ListSize',[150 120],'ListString',...
+%                     tasklist)
+% date
+clc
+    cd /home/cmi_linux/PsychToolbox_Experiments/Simon/HBN;
+              subj_Name =inputdlg({'Enter Subjects ID:'},'CMI-EEG',1,{''});
+
+%       fake_vid_q =questdlg({'Do you want to run the Video Test'},'CMI-EEG');
+%   if strmatch('Yes', fake_vid_q,'exact');
+% 
+% h = msgbox('VIDEO TESTING - PLEASE WAIT FOR FURTHER INSTRUCTIONS');
+% close(h) 
+% fake_video
+% else
+%delete('run_fake_movie.mat');
+
+
+       if exist([subj_Name{1,1}, '_SurroundSupp_Block2.matt']) >0
+     subj_Name =inputdlg({'Task already recorded for that subject! Choose a different one:'},'CMI-EEG',1,{''});
+      end
+    
+     cd /home/cmi_linux/PsychToolbox_Experiments/Simon/HBN;
+    
+      if exist([subj_Name{1,1}, '_metafile.mat']) >0
+     load([subj_Name{1,1}, '_metafile'])
+       else
+           subj_Name =inputdlg({'Subject ID not found! Choose a different one:'},'CMI-EEG',1,{''});
+          load([subj_Name{1,1}, '_metafile'])
+      end         
+      
+       
+      conn_EEG =inputdlg({'Record EEG:'},'CMI-EEG',1,{'Yes'});
+      if strmatch('Yes', conn_EEG,'exact');
+    NetStation('Connect','10.0.0.42')
+      end
+     
+     
+       
+       
+      
+     
+     
+     
+      %% Surround Suppression 2
+      start_Surr_Supp2 =questdlg('Would you like to start the Surroud Suppression (2nd Block)?');
+        if strmatch('Cancel', start_Surr_Supp2,'exact');
+          return
+      elseif strmatch('Yes', start_Surr_Supp2,'exact');
+     metafile.tasks{end+1,1} = 'Surr_Supp2';
+     metafile.tasks{end,2} = start_Surr_Supp2;
+     subj_ID =inputdlg({'Enter Subjects ID:', 'Enter Date:','Use EEG:', 'Use Eye-Tracker:', 'Eye-Tracker Calibration:'},'CMI-EEG',1,{subj_Name{1,1},date,'y','y', 'y'});
+     SurroundSupp4circCMI_new_fixed_order_Block2
+      end
+
+      cd /home/cmi_linux/PsychToolbox_Experiments/Simon/HBN;
+     save([subj_Name{1,1}, '_metafile'],'metafile')
+      
+     
+              %% Video 4
+            start_Video4 =questdlg('Would you like to start the 4th Video?');
+              if strmatch('Cancel', start_Video4,'exact');
+          return
+            elseif strmatch('Yes', start_Video4,'exact');
+     metafile.tasks{end+1,1} = 'Video4';
+     metafile.tasks{end,2} = start_Video4;
+subj_ID =inputdlg({'Enter Subjects ID:', 'Enter Date:','Use EEG:', 'Use Eye-Tracker:', 'Eye-Tracker Calibration:'},'CMI-EEG',1,{subj_Name{1,1},date,'y','y', 'y'});
+        subj_ID {4,1} = 'y'; 
+        VIDEO4_without1sec_trigger     
+     %VIDEO3
+      end
+
+      cd /home/cmi_linux/PsychToolbox_Experiments/Simon/HBN;
+     save([subj_Name{1,1}, '_metafile'],'metafile')
+      
+% end      
+      
+      
+%      %% IAT
+%             start_IAT =questdlg('Would you like to start the Implicit Association Task');
+%         if strmatch('Cancel', start_IAT,'exact');
+%           return
+%         elseif strmatch('Yes', start_IAT,'exact');
+%      metafile.tasks{end+1,1} = 'Surr_IAT';
+%      metafile.tasks{end,2} = start_IAT;
+%      cd '/home/cmi_linux/Program Files/FreeIAT'
+%      !FreeIAT_1.3.3.exe
+%       end
+% 
+%         cd /home/cmi_linux/PsychToolbox_Experiments/Simon;
+%      save([subj_Name{1,1}, '_metafile'],'metafile')
+%       
+%       %% PTICH Auditory Discrimination
+%       
+%       disp('DID YOU CHANGE THE AUDIOCABLE?');
+%                   start_MLP_pitch =questdlg('Would you like to start the Pitch - Auditory Discrimination Task');
+%                     if strmatch('Cancel', start_MLP_pitch,'exact');
+%           return
+%                   elseif strmatch('Yes', start_MLP_pitch,'exact');
+%      metafile.tasks{end+1,1} = 'MLP_pitch';
+%      metafile.tasks{end,2} = start_MLP_pitch;
+%           cd /home/cmi_linux/PsychToolbox_Experiments/Simon;
+%      save([subj_Name{1,1}, '_metafile'],'metafile')
+%      %randomize order!
+%      
+%   cd /home/cmi_linux/PsychToolbox_Experiments/Simon/psychoacoustics/
+%           MLP_example_pitch
+%            cd /home/cmi_linux/PsychToolbox_Experiments/Simon/psychoacoustics/
+%           MLP_CMI_pitch_500ms_ISI
+%           
+%            cd /home/cmi_linux/PsychToolbox_Experiments/Simon/psychoacoustics/
+%           MLP_example_pitch
+%            cd /home/cmi_linux/PsychToolbox_Experiments/Simon/psychoacoustics/
+%           MLP_CMI_pitch_250ms_ISI
+%       end
+% 
+% 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%  %% GAP Auditory Discrimination
+%   disp('DID YOU CHANGE THE AUDIOCABLE?');
+%                   start_MLP_gap =questdlg('Would you like to start the Gap - Auditory Discrimination Task');
+%                     if strmatch('Cancel', start_MLP_gap,'exact');
+%           return
+%                   elseif strmatch('Yes', start_MLP_gap,'exact');
+%      metafile.tasks{end+1,1} = 'MLP_gap';
+%      metafile.tasks{end,2} = start_MLP_gap;
+%         cd /home/cmi_linux/PsychToolbox_Experiments/Simon;
+%      save([subj_Name{1,1}, '_metafile'],'metafile')
+%      
+%   cd /home/cmi_linux/PsychToolbox_Experiments/Simon/psychoacoustics/
+%           MLP_example_gap
+%           cd /home/cmi_linux/PsychToolbox_Experiments/Simon/psychoacoustics/
+%           MLP_CMI_gap
+%       end
+% 
+%   %% FORMANT Auditory Discrimination
+%    disp('DID YOU CHANGE THE AUDIOCABLE?');
+%                   start_MLP_formant =questdlg('Would you like to start the Formant - Auditory Discrimination Task');
+%                     if strmatch('Cancel', start_MLP_formant,'exact');
+%           return
+%                   elseif strmatch('Yes', start_MLP_formant,'exact');
+%      metafile.tasks{end+1,1} = 'MLP_formant';
+%      metafile.tasks{end,2} = start_MLP_formant;
+%         cd /home/cmi_linux/PsychToolbox_Experiments/Simon;
+%      save([subj_Name{1,1}, '_metafile'],'metafile')
+%      
+%   cd /home/cmi_linux/PsychToolbox_Experiments/Simon/psychoacoustics/
+%           MLP_example_formant
+%           cd /home/cmi_linux/PsychToolbox_Experiments/Simon/psychoacoustics/
+%           MLP_CMI_formant
+%       end 
+    
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+     
+      
+%%
+
+% clear all
+% 
+% addpath('/home/cmi_linux/PsychToolbox_Experiments/Simon/general_matlabfiles')
+% addpath('/home/cmi_linux/PsychToolbox_Experiments/Simon/WISC_PS')
+% tasklist = {'Resting-EEG','Video','Change Detection', 'Surround Suppression','Learning Paradigm','Auditory Psychophysics', 'Processing Speed'};
+%   
+% [select] = listdlg('PromptString','Select Task', 'SelectionMode','single', 'ListSize',[150 120],'ListString',...
+%                     tasklist)
+% date
+%                 subj_ID =inputdlg({'Enter Subjects ID:', 'Enter Date:','Use EEG:', 'Use Eye-Tracker:', 'Eye-Tracker Calibration:'},'CMI-EEG',1,{'',date,'y','y', 'y'});
+%                 
+%       if select == 1
+%      cd /home/cmi_linux/PsychToolbox_Experiments/Simon
+%      Resting_EEG           
+%  
+%       elseif select == 2
+%      cd /home/cmi_linux/PsychToolbox_Experiments/Simon
+%      VIDEO
+%  elseif select == 3
+%      cd /home/cmi_linux/PsychToolbox_Experiments/Simon
+%      ContrastChangeDetect_2AFC_CMI_example_new
+%      start_Contrast =questdlg('Would you like to start the actual task?');
+%      if start_Contrast =='Yes';
+%      ContrastChangeDetect_2AFC_CMI_new
+%      end
+%  elseif select == 4
+%      cd /home/cmi_linux/PsychToolbox_Experiments/Simon
+%      SurroundSupp4circCMI_new
+%  elseif select == 5
+%       cd /home/cmi_linux/PsychToolbox_Experiments/Simon
+%      Explicit_Sequence_Learning_paradigm_visual_spatial_CMI_example
+%      start_Learning =questdlg('Would you like to start the actual task?');
+%      if start_Learning =='Yes';
+%      Explicit_Sequence_Learning_paradigm_visual_spatial_CMI
+%      end;
+%  elseif select == 6
+%      cd /home/cmi_linux/PsychToolbox_Experiments/Simon/psychoacoustics
+%      MLP
+%      elseif select == 7
+%      cd /home/cmi_linux/PsychToolbox_Experiments/Simon
+%      WISC_ProcessingSpeed_paradigm_example
+%      start_Learning =questdlg('Would you like to start the actual task?');
+%      if start_Learning =='Yes';
+%      WISC_ProcessingSpeed_paradigm
+%      end
+%  end
+%      
